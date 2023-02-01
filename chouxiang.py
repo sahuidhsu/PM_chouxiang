@@ -8,7 +8,7 @@ from requests import get
 @listener(outgoing=True, command=alias_command("updatecx"),
           description="更新抽象插件")
 async def update(context):
-    version = "1.0.0"
+    version = "1.0.1"
     await context.edit("检查更新中...")
     try:
         latest = get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/version.txt").text
@@ -17,7 +17,7 @@ async def update(context):
             return
         else:
             await context.edit("检测到新版本，正在更新...")
-            with open("chouxiang.py", "w") as f:
+            with open("plugins/chouxiang.py", "w") as f:
                 f.write(get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/chouxiang.py").text)
             await context.edit("更新完成！请手动使用restart指令重启机器人！")
     except Exception as e:

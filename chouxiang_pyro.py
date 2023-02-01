@@ -4,6 +4,37 @@ from pagermaid import log
 from pagermaid.listener import listener
 from pagermaid.enums import Message
 from pagermaid.services import bot
+from requests import get
+
+@listener(command="updatecx",
+          description="更新抽象插件")
+async def update(message: Message):
+    version = "1.0.2"
+    await message.edit("检查更新中...")
+    try:
+        latest = get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/version.txt")
+        if latest.status_code != 200:
+            await message.edit(f"检查更新失败!服务器返回状态码: {latest.status_code}")
+            log(f"检查更新失败!状态码: {latest.status_code}")
+            return
+        if latest.text == version:
+            await message.edit(f"当前已是最新版本!版本号：{latest.text}")
+            return
+        else:
+            await message.edit(f"检测到新版本!版本号：{latest.text}")
+            file = get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/chouxiang_pyro.py")
+            if file.status_code != 200:
+                await message.edit(f"更新失败!服务器返回状态码: {file.status_code}")
+                log(f"更新失败!状态码: {file.status_code}")
+                return
+            with open("plugins/chouxiang_pyro.py", "w") as f:
+                f.write(file.text)
+            await message.edit(f"更新完成！已更新到{latest.text}版本\n请手动使用restart指令重启机器人！")
+            log(f"抽象插件已更新到{latest.text}版本")
+    except Exception as e:
+        await message.edit(f"更新失败!错误信息: {e}")
+        log(f"更新失败!错误信息: {e}")
+        return
 
 @listener(command="renshu",
           description="释放忍术")

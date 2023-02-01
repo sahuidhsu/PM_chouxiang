@@ -3,7 +3,27 @@ from os import remove
 from pagermaid import log, bot
 from pagermaid.listener import listener
 from pagermaid.utils import alias_command
+from requests import get
 
+@listener(outgoing=True, command=alias_command("updatecx"),
+          description="更新抽象插件")
+async def update(context):
+    version = "1.0.0"
+    await context.edit("检查更新中...")
+    try:
+        latest = get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/version.txt").text
+        if latest == version:
+            await context.edit("当前已是最新版本!")
+            return
+        else:
+            await context.edit("检测到新版本，正在更新...")
+            with open("chouxiang.py", "w") as f:
+                f.write(get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/chouxiang.py").text)
+            await context.edit("更新完成！请手动使用restart指令重启机器人！")
+    except Exception as e:
+        log.error(e)
+        await context.edit(f"更新失败!报错信息: {e}")
+        return
 
 @listener(outgoing=True, command=alias_command("renshu"),
           description="释放忍术")

@@ -8,3 +8,4 @@
 ## 本插件支持自主更新，使用`-updatecx`(pyro用户使用`,updatecx`)即可更新至最新版本
 
 ### Debug:如果生成不出来，请查看脚本运行log提issue
+### 更新日志见[CHANGELOG](CHANGELOG.md)

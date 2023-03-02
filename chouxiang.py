@@ -1,4 +1,5 @@
 import base64
+import time
 from os import remove
 from pagermaid import log, bot
 from pagermaid.listener import listener
@@ -8,7 +9,7 @@ from requests import get
 @listener(outgoing=True, command=alias_command("updatecx"),
           description="更新抽象插件")
 async def update(context):
-    version = "1.0.4"
+    version = "1.0.5"
     await context.edit("检查更新中...")
     try:
         latest = get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/version.txt")
@@ -18,6 +19,8 @@ async def update(context):
             return
         if latest.text == version:
             await context.edit(f"当前已是最新版本!\n版本号：**{latest.text}**")
+            time.sleep(2)
+            await context.delete()
             return
         else:
             await context.edit(f"检测到新版本**{latest.text}**，正在更新...")

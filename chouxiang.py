@@ -9,7 +9,7 @@ from requests import get
 @listener(outgoing=True, command=alias_command("updatecx"),
           description="更新抽象插件")
 async def update(context):
-    version = "1.0.5"
+    version = "1.0.6"
     await context.edit("检查更新中...")
     try:
         latest = get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/version.txt")
@@ -31,8 +31,14 @@ async def update(context):
                 return
             with open("plugins/chouxiang.py", "w") as f:
                 f.write(file.text)
-            await context.edit(f"更新完成！已更新到**{latest.text}**版本\n请手动使用**restart**指令重启机器人！")
-            await log(f"抽象插件已更新到{latest.text}版本")
+            try:
+                await context.edit(f"更新完成！已更新到**{latest.text}**版本\n正在尝试自动重启(重启完不会有提示)...")
+                await log(f"抽象插件已更新到{latest.text}版本")
+                await context.client.disconnect()
+            except BaseException as e:
+                await log(f"自动重启失败!报错信息: {e}")
+                await context.edit(f"自动重启失败!\n报错信息: {e}")
+                return
     except Exception as e:
         await log(f"更新失败!报错信息: {e}")
         await context.edit(f"更新失败!报错信息: {e}")

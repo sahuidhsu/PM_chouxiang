@@ -1,11 +1,31 @@
-# PM_chouxiang
-### 一些抽象语录的 [PagerMaid](https://github.com/TeamPGM)插件
-## [PagerMaid-Modify](https://github.com/TeamPGM/PagerMaid-Modify)用户请使用`没有_pyro后缀的.py`文件
-## [PagerMaid-Pyro](https://github.com/TeamPGM/PagerMaid_Plugins_Pyro)用户请使用`_pyro后缀.py`文件
-## 安装方法：将对应版本文件发送到TG任意对话，回复该文件并输入`-apt install`(pyro用户使用`,apt install`)
-## 使用方法：在-help(`help)中可以看到指令
+# PM\_chouxiang
 
-## 本插件支持自主更新，使用`-updatecx`(pyro用户使用`,updatecx`)即可更新至最新版本
+### PagerMaid 插件 - 抽象语录
 
-### Debug:如果生成不出来，请查看脚本运行log提issue
-### 更新日志见[CHANGELOG](CHANGELOG.md)
+## 适用版本
+
+- **PagerMaid-Modify** 用户请使用 `没有_pyro后缀的.py` 文件
+- **PagerMaid-Pyro** 用户请使用 `_pyro后缀.py` 文件
+
+## 安装方法
+
+将对应版本文件发送到 Telegram 任意对话，回复该文件并输入：
+
+- **PagerMaid-Modify** 用户：`-apt install`
+- **PagerMaid-Pyro** 用户：`,apt install`
+
+## 使用方法
+
+使用 `-cx help`（PagerMaid-Modify 用户）或 `,cx help`（PagerMaid-Pyro 用户）查看指令。
+
+## 自主更新
+
+使用 `-cx update`（PagerMaid-Modify 用户）或 `,cx update`（PagerMaid-Pyro 用户）更新至最新版本。
+
+## Debug
+
+如果生成不出来，请查看脚本运行日志并提 issue。
+
+## 更新日志
+
+见 [CHANGELOG](CHANGELOG.md)

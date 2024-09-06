@@ -1,0 +1,40 @@
+{
+    "audios": {
+        "renshu": {
+            "description": "释放忍术"
+        },
+        "baixiang": {
+            "description": "不是白象的我不吃"
+        },
+        "madeinchina": {
+            "description": "中国制造"
+        },
+        "yasuomaojin": {
+            "description": "这不是饼干，是压缩毛巾"
+        },
+        "ylmsn": {
+            "description": "压力马斯内！"
+        },
+        "dz": {
+            "description": "我是丁真！"
+        },
+        "wcnmm": {
+            "description": "如果你需要鼓励！"
+        },
+        "xbbz": {
+            "description": "雪豹闭嘴！"
+        },
+        "laoma": {
+            "description": "老马啊！"
+        },
+        "daoli": {
+            "description": "说的道理~"
+        },
+        "haha": {
+            "description": "原声大碟哈哈"
+        },
+        "xia": {
+            "description": "下~"
+        }
+    }
+}

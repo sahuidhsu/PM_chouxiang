@@ -9,7 +9,7 @@ from requests import get
 @listener(outgoing=True, command=alias_command("updatecx"),
           description="更新抽象插件")
 async def update(context):
-    version = "1.0.6"
+    version = "1.0.7"
     await context.edit("检查更新中...")
     try:
         latest = get("https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/master/version.txt")

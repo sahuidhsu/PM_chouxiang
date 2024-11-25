@@ -4,13 +4,13 @@ import time
 from traceback import print_exc
 from typing import BinaryIO
 
-from pagermaid import log
+from pagermaid.utils.bot_utils import log
 from pagermaid.enums import Message
 from pagermaid.listener import listener
 from pagermaid.services import bot
 from pagermaid.services import client
 
-VERSION = "2.0.0"
+VERSION = "2.0.2"
 REPO_RAW_URL = "https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/main"
 REPO_NAME = "sahuidhsu/PM_chouxiang"
 LOCAL_DIR = "data/cx_audios"

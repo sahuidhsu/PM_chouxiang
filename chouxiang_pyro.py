@@ -10,7 +10,7 @@ from pagermaid.listener import listener
 from pagermaid.services import bot
 from pagermaid.services import client
 
-VERSION = "2.0.2"
+VERSION = "2.02"
 REPO_RAW_URL = "https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/main"
 REPO_NAME = "sahuidhsu/PM_chouxiang"
 LOCAL_DIR = "data/cx_audios"

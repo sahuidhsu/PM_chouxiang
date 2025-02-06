@@ -6,7 +6,7 @@ from pagermaid import log, bot
 from pagermaid.listener import listener
 from pagermaid.utils import alias_command
 from requests import get
-version = "2.0.2"
+version = "2.02"
 REPO_RAW_URL = "https://raw.githubusercontent.com/sahuidhsu/PM_chouxiang/main"
 REPO_NAME = "sahuidhsu/PM_chouxiang"
 LOCAL_DIR = "data/cx_audios"
@@ -14,13 +14,14 @@ LOCAL_DIR = "data/cx_audios"
 async def update(context):
     await context.edit("检查更新中...")
     try:
-        latest = get(f"{REPO_RAW_URL}/version.txt")
+        latest = get(f"https://api.github.com/repos/{REPO_NAME}/releases/latest",
+                                                  headers={"User-Agent": "Mozilla/5.0"})
         if latest.status_code != 200:
             await context.edit(f"检查更新失败!\n服务器返回状态码: {latest.status_code}")
             await log(f"检查更新失败!服务器返回状态码: {latest.status_code}")
             return
         if latest.text == version:
-            await context.edit(f"当前已是最新版本!\n版本号：**{latest.text}**")
+            await context.edit(f"当前已是最新版本!\n最新Release版本号：**{latest.text}**")
             time.sleep(2)
             await context.delete()
             return

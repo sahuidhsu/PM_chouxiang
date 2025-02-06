@@ -14,20 +14,20 @@ LOCAL_DIR = "data/cx_audios"
 async def update(context):
     await context.edit("检查更新中...")
     try:
-        latest = get(f"https://api.github.com/repos/{REPO_NAME}/releases/latest",
+        response = get(f"https://api.github.com/repos/{REPO_NAME}/releases/latest",
                                                   headers={"User-Agent": "Mozilla/5.0"})
-        latest = latest.json()['tag_name']
-        if latest.status_code != 200:
-            await context.edit(f"检查更新失败!\n服务器返回状态码: {latest.status_code}")
-            await log(f"检查更新失败!服务器返回状态码: {latest.status_code}")
+        latest = response.json()['tag_name']
+        if response.status_code != 200:
+            await context.edit(f"检查更新失败!\n服务器返回状态码: {response.status_code}")
+            await log(f"检查更新失败!服务器返回状态码: {response.status_code}")
             return
-        if latest.text == version:
-            await context.edit(f"当前已是最新版本!\n最新Release版本号：**{latest.text}**")
+        if latest == version:
+            await context.edit(f"当前已是最新版本!\n最新Release版本号：**{latest}**")
             time.sleep(2)
             await context.delete()
             return
         else:
-            await context.edit(f"检测到新版本**{latest.text}**，正在更新...")
+            await context.edit(f"检测到新版本**{latest}**，正在更新...")
             file = get(f"{REPO_RAW_URL}/chouxiang.py")
             if file.status_code != 200:
                 await context.edit(f"更新失败!\n服务器返回状态码: {file.status_code}")
@@ -36,8 +36,8 @@ async def update(context):
             with open("plugins/chouxiang.py", "w") as f:
                 f.write(file.text)
             try:
-                await context.edit(f"更新完成！已更新到**{latest.text}**版本\n正在尝试自动重启(重启完不会有提示)...")
-                await log(f"抽象插件已更新到{latest.text}版本")
+                await context.edit(f"更新完成！已更新到**{latest}**版本\n正在尝试自动重启(重启完不会有提示)...")
+                await log(f"抽象插件已更新到{latest}版本")
                 await context.client.disconnect()
             except BaseException as e:
                 await log(f"自动重启失败!报错信息: {e}")

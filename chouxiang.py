@@ -1,7 +1,6 @@
-import base64
 import time
-from http.client import responses
-from os import remove,makedirs
+import shutil
+from os import makedirs,path
 
 from pagermaid import log, bot
 from pagermaid.listener import listener
@@ -59,25 +58,42 @@ async def get_list() -> str:
         await log("获取语录列表时发生错误")
         return "抽象语录获取失败，请检查网络"
 
+async def clear_cache() -> str:
+    if path.exists(LOCAL_DIR):
+        try:
+            shutil.rmtree(LOCAL_DIR)
+            return "清理完成"
+        except Exception as e:
+            await log(f"清理失败 错误信息: {e}")
+            return "清理失败 错误信息:\n" + str(e)
+    else:
+        return "本地缓存不存在"
+
 async def send_audio(context, text):
-    await context.edit("生成中...")
-    try:
-        code = ""
-        tmpfile = open("renshu.mp3", "wb")
-        tmpfile.write(base64.b64decode(code))
-        tmpfile.close()
-    except BaseException as e:
-        await context.edit(f"出错了呜呜呜: {e}")
-        return
-    try:
+    makedirs(LOCAL_DIR, exist_ok=True)
+    if path.exists(f"{LOCAL_DIR}/{text}.mp3"):
+        await context.edit("正在发送语录...")
+        await context.client.send_file(context.chat_id, f"{LOCAL_DIR}/{text}.mp3", voice_note=True)
+        await log(f"语录 {text} 发送完毕")
         await context.delete()
-        await context.client.send_file(context.chat_id, "renshu.mp3", voice_note=True)
-        remove("renshu.mp3")
-        await log("忍术发送完毕")
         return
-    except BaseException as e:
-        await log(f"忍术发送失败: {e}")
-        return
+    else:
+        try:
+            response = get(f"{REPO_RAW_URL}/audios/{text}.mp3")
+            if response.status_code != 200:
+                await context.edit("语录不存在或无法联系GitHub服务器，请检查是否输入正确")
+                return
+            with open(f"{LOCAL_DIR}/{text}.mp3", "wb") as f:
+                f.write(response.content)
+            await context.edit("正在发送语录...")
+            await context.client.send_file(context.chat_id, f"{LOCAL_DIR}/{text}.mp3", voice_note=True)
+            await log(f"语录 {text} 发送完毕")
+            await context.delete()
+            return
+        except Exception as e:
+            await log(f"下载语录时发生错误: {e}")
+            await context.edit(f"下载语录时发生错误: {e}")
+            return
 
 @listener(outgoing=True, command=alias_command("cx"),
           description="抽象语录", parameters="<text>")
@@ -94,8 +110,7 @@ async def cx(context):
         await context.edit(await get_list())
         return
     elif command == "clear":
-        # await clear_cache()
-        await context.edit("`功能待实现。`")
+        await context.edit(await clear_cache())
         return
     elif command == "update":
         await update(context)

@@ -16,6 +16,7 @@ async def update(context):
     try:
         latest = get(f"https://api.github.com/repos/{REPO_NAME}/releases/latest",
                                                   headers={"User-Agent": "Mozilla/5.0"})
+        latest = latest.json()['tag_name']
         if latest.status_code != 200:
             await context.edit(f"检查更新失败!\n服务器返回状态码: {latest.status_code}")
             await log(f"检查更新失败!服务器返回状态码: {latest.status_code}")
@@ -118,7 +119,7 @@ async def cx(context):
         return
     else:
         if not command:
-            await context.edit("参数有误，请使用 `,cx help` 查看帮助。")
+            await context.edit("参数有误，请使用 `-cx help` 查看帮助。")
             return
         else:
             await send_audio(context, command)

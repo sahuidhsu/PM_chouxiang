@@ -23,8 +23,6 @@ async def update(context):
             return
         if latest == version:
             await context.edit(f"当前已是最新版本!\n最新Release版本号：**{latest}**")
-            time.sleep(2)
-            await context.delete()
             return
         else:
             await context.edit(f"检测到新版本**{latest}**，正在更新...")

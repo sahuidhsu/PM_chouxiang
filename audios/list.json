@@ -38,6 +38,12 @@
         },
         "lgg": {
             "description": "灵感菇"
+        },
+        "cnm": {
+            "description": "东雪莲小嘴抹蜜"
+        },
+        "mb": {
+            "description": "曼波"
         }
     }
 }
